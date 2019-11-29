@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ChuckFacts</string>
+    <string name="example_category">Sample Category</string>
+    <string name="example_joke_title">Sample Title</string>
+    <string name="link"><a href="%s">%s</a></string>
+    <string name="example_joke_text">Your bones don\'t break, mine do. That\'s clear. Your cells react to bacteria and viruses differently than mine. You don\'t get sick, I do. That\'s also clear.</string>
+    <string name="openquote">“</string>
+    <string name="closequote">”</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
