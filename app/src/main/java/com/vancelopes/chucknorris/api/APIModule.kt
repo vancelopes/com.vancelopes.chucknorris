@@ -12,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
  * ChuckAPI class.
  * This is the main API fetching service.
  */
+
 @Module
 object APIModule {
 

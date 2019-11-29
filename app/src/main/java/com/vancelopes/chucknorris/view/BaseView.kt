@@ -5,4 +5,7 @@ import android.content.Context
 /**
  * A base class for View.
  */
-interface BaseView { fun context(): Context }
+interface BaseView {
+    fun context(): Context
+    fun showError()
+}

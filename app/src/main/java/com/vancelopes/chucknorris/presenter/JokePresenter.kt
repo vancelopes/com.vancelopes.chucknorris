@@ -16,6 +16,9 @@ class JokePresenter(jokeView: JokeView, var category: String): BasePresenter<Jok
         disposable = chuckAPI.getRandomJoke(category)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe { joke -> view.showJoke(joke) }
+            .subscribe (
+                { joke -> view.showJoke(joke) },
+                { view.showError() }
+            )
     }
 }

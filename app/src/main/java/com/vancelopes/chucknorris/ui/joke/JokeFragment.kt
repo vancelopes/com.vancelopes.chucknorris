@@ -1,7 +1,7 @@
 package com.vancelopes.chucknorris.ui.joke
 
+import android.app.ProgressDialog
 import android.os.Bundle
-import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +20,8 @@ class JokeFragment(private var category: String) : BaseFragment<JokePresenter>()
 
     companion object { const val TAG = "joke" }
 
+    private lateinit var dialog: ProgressDialog
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,23 +31,28 @@ class JokeFragment(private var category: String) : BaseFragment<JokePresenter>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dialog = ProgressDialog(context)
+        dialog.setMessage(getString(R.string.loading))
+        dialog.show()
         presenter().onViewCreated()
     }
 
     override fun showJoke(joke: Joke) {
+        dialog.dismiss()
         tv_text.text = joke.value
         tv_link.text = String.format(Locale.getDefault(), getString(R.string.link), joke.url)
         tv_link.movementMethod = LinkMovementMethod.getInstance()
         Glide.with(context())
             .load(joke.iconUrl)
+            .placeholder(R.drawable.img_placeholder)
             .into(iv_icon)
         container_text.visibility = View.VISIBLE
     }
 
+    override fun showError() { dialog.dismiss(); showDialog(getString(R.string.error)) }
+
     /// region Init & Destroy
-    override fun initPresenter(): JokePresenter {
-        return JokePresenter(this, category)
-    }
+    override fun initPresenter(): JokePresenter { return JokePresenter(this, category) }
     override fun onDestroy() { super.onDestroy(); presenter().onViewDestroyed() }
     /// endregion
 }

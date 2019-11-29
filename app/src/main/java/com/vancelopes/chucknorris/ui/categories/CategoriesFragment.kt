@@ -24,9 +24,15 @@ class CategoriesFragment : BaseFragment<CategoriesPresenter>(), CategoriesView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter().onViewCreated()
+        swipe_refresh.setOnRefreshListener {
+            presenter().loadCategories()
+        }
+        toggleRefresh(false)
+        swipe_refresh.isRefreshing = true
     }
 
     override fun showCategories(categories: List<String>) {
+        toggleRefresh(true)
         if(categoriesAdapter == null) {
             categoriesAdapter = CategoriesAdapter(context(), categories, activity!! as CategoryItemListener)
             list_categories.layoutManager = LinearLayoutManager(context)
@@ -36,6 +42,13 @@ class CategoriesFragment : BaseFragment<CategoriesPresenter>(), CategoriesView {
         }
         categoriesAdapter?.updateList(categories)
     }
+
+    private fun toggleRefresh(toggle: Boolean) {
+        swipe_refresh.isEnabled = toggle
+        swipe_refresh.isRefreshing = !toggle
+    }
+
+    override fun showError() { showDialog(getString(R.string.error)) }
 
     /// region Init & Destroy
     override fun initPresenter(): CategoriesPresenter { return CategoriesPresenter(this) }
